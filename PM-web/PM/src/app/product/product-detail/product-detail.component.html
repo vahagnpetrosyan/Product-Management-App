@@ -1,0 +1,36 @@
+<div class="panel panel-primary" *ngIf='product'>
+  <div class="panel-heading">
+    pageTitle {{product.productName}}
+  </div>
+  <div class="panel-body">
+    <mat-list>
+      <mat-list-item role="listitem">
+         Name: {{product.productName}}
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        Code: {{product.productCode}}
+     </mat-list-item>
+     <mat-list-item role="listitem">
+      Date: {{product.releaseDate}}
+     </mat-list-item>
+     <mat-list-item role="listitem">
+      Description: {{product.description}}
+     </mat-list-item>
+     <mat-list-item role="listitem">
+      Price: {{product.price | currency:'USD':true:'1.2-2'}}
+     </mat-list-item>
+     <mat-list-item role="listitem">
+      Rating: <pm-star [rating]="product.starRating"></pm-star>
+     </mat-list-item>
+     <mat-list-item role="listitem">
+      Image: <img [src]="product.imageUrl">
+     </mat-list-item>
+  </mat-list>
+  </div>
+  <div class='panel-footer'>
+    <a class="btn btn-default" (click)="goBack()" style="width:80px">
+      <i class="glyphicon glyphicon-cnevron-left"></i> Back
+    </a>
+  </div>
+
+</div>

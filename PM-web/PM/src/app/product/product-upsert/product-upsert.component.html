@@ -1,0 +1,47 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+      <h2>Edit Product</h2>
+</div>
+<ng-container *ngIf="isReady">
+  <div class="panel-body">
+    <form (ngSubmit)="onSubmit()" #form="ngForm"> 
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name"
+               [(ngModel)]="product.productName" name="name">
+      </div>
+      <div class="form-group">
+        <label for="code">Code</label>
+        <input type="text" class="form-control" id="code"
+               [(ngModel)]="product.productCode" name="code">
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="text" class="form-control" id="date"
+               [(ngModel)]="product.releaseDate" name="date">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description"
+               [(ngModel)]="product.description" name="description">
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="price"
+               [(ngModel)]="product.price" name="price">
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating</label>
+        <input type="number" class="form-control" id="rating"
+               [(ngModel)]="product.starRating" name="rating">
+      </div>
+      <div class="form-group">
+        <label for="image">ImageUrl</label>
+        <input type="text" class="form-control" id="image"
+               [(ngModel)]="product.imageUrl" name="image">
+      </div>
+      <button type="submit" class="btn btn-success">Update</button>
+    </form>
+  </div>
+</ng-container> 
+</div>

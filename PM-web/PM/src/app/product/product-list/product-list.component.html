@@ -1,0 +1,73 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{productList}}
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2">Filter by:</div>
+            <div class="col-md-4">
+                <input type="text"
+                       [(ngModel)]='filterParam'
+                />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Filtered by: {{filterParam}}</h3>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table" *ngIf='products && products.length'>
+                <thead>
+                    <tr>
+                        <th>
+                            <button class="btn btn-primary" (click)='toggleShowImage()'>
+                                {{showImage ? "Hide" : "Show"}} image
+                            </button>
+                        </th>
+                        <th>Product</th>
+                        <th>Code</th>
+                        <th>Available</th>
+                        <th>Price</th>
+                        <th>5 star Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let product of filteredProducts'>
+                        <td>
+                            <img *ngIf='showImage' [src] = 'product.imageUrl'
+                                 [title] = 'product.productName'
+                                 [style.width.px] = 'imageWindth'
+                                 [style.margin.px] = 'imageMargin'/>    
+                        </td>
+                        <td>
+                            <a [routerLink]="['/products', product.id]">{{product.productName}}</a>
+                        </td>
+                        <td>{{product.productCode | lowercase | convertToSpace:'-'}}</td>
+                        <td>{{product.releaseDate}}</td>
+                        <td>{{product.price | currency:'USD':true:'1.2-2'}}</td>
+                        <td><pm-star [rating]='product.starRating' (rankClickedEvent)='onRankClicked($event)'></pm-star></td>
+                        <td>
+                            <a [routerLink]="['/edit', product.id]">
+                                <i class="fa fa-edit" style="font-size:36px;color:greenyellow"></i>
+                            </a>
+                        </td>
+                        <td><button class="btn btn-danger" (click)="onDelete(product.id)">Delete</button></td>
+                    </tr>
+                </tbody>    
+            </table>
+        </div>
+    </div>
+    <mat-expansion-panel [expanded]="expanded" hideToggle="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+               <div style="color: greenyellow; font-size: 24px; border-style: solid; border: seashell"
+               >Add new</div>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+            <pm-product-insert (productSubmitted)="onProductSubmitted($event)"
+             (expanded)="toggleExpansion($event)"></pm-product-insert>
+        </ng-template>    
+    </mat-expansion-panel>
+</div>
