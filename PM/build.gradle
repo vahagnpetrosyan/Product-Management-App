@@ -19,31 +19,45 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.moowork.node"
 
-group = 'com.students'
+group = 'com.products'
 version = '0.0.1'
 sourceCompatibility = 1.8
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '4.5.1'
 }
+def webappDir = "$projectDir/src/main/PM-web/PM"
 
-task buildAngular(type: NpmTask, dependsOn: 'npmInstall') {
-	group = 'build'
-	description = "Compile Angular"
-	args = ['run', 'build']
+processResources {
+	dependsOn "buildAngular"
 }
 
-bootRun.dependsOn(buildAngular)
+task buildAngular(type:Exec) {
+	dependsOn "installAngularModules"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "run", "build"
+	} else {
+		commandLine "npm", "run", "build"
+	}
+}
 
+task installAngularModules(type:Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "install"
+	}
+}
 jar {
 	baseName = 'PM-app'
 	version = '0.0.1'
-}
-
-node {
-	nodeModulesDir = file("src/main/PM-web/PM/node_modules")
 }
 
 repositories {
