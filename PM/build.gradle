@@ -4,9 +4,14 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
+
 	}
 }
 
@@ -15,9 +20,45 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.students'
-version = '0.0.1-SNAPSHOT'
+group = 'com.products'
+version = '0.0.1'
 sourceCompatibility = 1.8
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.5.1'
+}
+def webappDir = "$projectDir/src/main/PM-web/PM"
+
+processResources {
+	dependsOn "buildAngular"
+}
+
+task buildAngular(type:Exec) {
+	dependsOn "installAngularModules"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "run", "build"
+	} else {
+		commandLine "npm", "run", "build"
+	}
+}
+
+task installAngularModules(type:Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "install"
+	}
+}
+jar {
+	baseName = 'PM-app'
+	version = '0.0.1'
+}
 
 repositories {
 	mavenCentral()
@@ -31,3 +72,4 @@ dependencies {
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.1'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+

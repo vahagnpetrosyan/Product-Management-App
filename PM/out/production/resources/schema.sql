@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS "products" (
   "rating" FLOAT(2) NOT NULL,
   "image_url" VARCHAR(255),
   "created_at" TIMESTAMP DEFAULT now(),
-	"updated_at" TIMESTAMP DEFAULT now()
+  "updated_at" TIMESTAMP DEFAULT now()
 );
