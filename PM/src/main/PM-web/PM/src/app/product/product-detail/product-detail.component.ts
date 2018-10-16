@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../model/product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../service/product.service';
+import {ProductTrackerError} from "../model/product-tracker-error";
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -16,7 +17,8 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     let id = this._route.snapshot.paramMap.get("id");
     this._productService.getProductById(id)
-                    .subscribe(resproduct => this.product = resproduct, error => console.error(error));
+                    .subscribe((product: IProduct) => this.product = product,
+                      (error: ProductTrackerError) => console.error(error));
   }
 
   goBack(): void{
