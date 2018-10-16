@@ -13,6 +13,7 @@ import { MatDesignModule } from '../design/mat-design.module';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductInsertComponent } from './product-insert/product-insert.component';
 import { ProductDeleteDialogComponent } from './product-delete/product-delete-dialog.component';
+import {ProductResolverService} from "./service/product-resolver.service";
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { ProductDeleteDialogComponent } from './product-delete/product-delete-di
   ],
   providers: [
     ProductService,
-    ProductGuardService
+    ProductGuardService,
+    ProductResolverService
   ]
 
 })

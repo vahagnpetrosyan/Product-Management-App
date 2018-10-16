@@ -1,5 +1,5 @@
 
-export class IProduct{
+export class IProduct {
     constructor(
         public id: number,
         public productName: string,
@@ -9,5 +9,5 @@ export class IProduct{
         public price: number,
         public starRating: number,
         public imageUrl: string
-    ){}
-}   
+    ) {}
+}

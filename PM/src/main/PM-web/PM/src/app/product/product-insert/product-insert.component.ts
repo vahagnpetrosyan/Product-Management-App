@@ -3,6 +3,7 @@ import { IProduct } from '../model/product';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../service/product.service';
 import { ToastrService } from 'ngx-toastr';
+import {ProductTrackerError} from '../model/product-tracker-error';
 
 @Component({
   selector: 'pm-product-insert',
@@ -19,9 +20,9 @@ export class ProductInsertComponent implements OnInit {
   @Output()
   public expanded: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private _router: Router, 
+  constructor(private _router: Router,
               private _productService: ProductService,
-              private _toastrService: ToastrService) { 
+              private _toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -34,16 +35,16 @@ export class ProductInsertComponent implements OnInit {
       price: null,
       starRating: null,
       imageUrl: null
-    }
+    };
   }
 
   onSubmit() {
       this._productService.addProduct(this.product).subscribe((data: IProduct) => {
-        this._toastrService.success("Successfully added!", "Add");
+        this._toastrService.success('Successfully added!', 'Add');
         this.productSubmitted.emit(data);
         this.expanded.emit(false);
-      }, error => { 
-        console.log(error);
+      }, (error: ProductTrackerError) => {
+        console.error(error);
       });
   }
 

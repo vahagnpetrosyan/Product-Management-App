@@ -3,6 +3,7 @@ import { IProduct } from '../model/product';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../service/product.service';
 import { ToastrService } from 'ngx-toastr';
+import {ProductTrackerError} from '../model/product-tracker-error';
 
 @Component({
   selector: 'pm-product-upsert',
@@ -14,8 +15,8 @@ export class ProductUpsertComponent implements OnInit {
   public product: IProduct;
   public isReady: boolean;
 
-  constructor(private _route: ActivatedRoute, 
-    private _productService: ProductService, 
+  constructor(private _route: ActivatedRoute,
+    private _productService: ProductService,
     private _router: Router, private _toastrService: ToastrService) { }
 
   ngOnInit() {
@@ -23,21 +24,21 @@ export class ProductUpsertComponent implements OnInit {
     this._route.paramMap.subscribe(params => {
       id = params.get('id');
       this._productService.getProductById(id)
-      .subscribe(product => {
+      .subscribe((product: IProduct) => {
         this.product = product;
         this.isReady = true;
-      }, error => {
+      }, (error: ProductTrackerError) => {
         console.error(error);
       });
-      
+
     });
   }
 
   public onSubmit() {
     this._productService.updateProduct(this.product).subscribe(() => {
-       this._toastrService.success("Product is updated!", "Update");
+       this._toastrService.success('Product is updated!', 'Update');
        this._router.navigate(['/products']);
-    });
+    }, (error: ProductTrackerError) => console.error(error));
   }
 
 }
