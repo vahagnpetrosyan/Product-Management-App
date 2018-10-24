@@ -6,7 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import {routes} from './app.routes';
-import { ProductModule } from './product/product.module' 
+import { ProductModule } from './product/product.module'
+import {InterceptorsModule} from "./services/interceptors/interceptors.module";
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { ProductModule } from './product/product.module'
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    ProductModule
+    ProductModule,
+    InterceptorsModule
   ],
   bootstrap: [AppComponent]
 })

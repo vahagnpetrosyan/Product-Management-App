@@ -30,20 +30,12 @@ export class ProductService {
 
     public updateProduct(updatedProduct: IProduct): Observable<void | ProductTrackerError> {
         return this._http.patch<void>(this.baseUrl + `/api/products/${updatedProduct.id}`,
-                    updatedProduct, {
-                        headers: new HttpHeaders({
-                            'Content-Type': 'application/json'
-                        })
-                    }).catch(this.handlerError);
+                    updatedProduct).catch(this.handlerError);
     }
 
     public addProduct(product: IProduct): Observable<IProduct | ProductTrackerError> {
         return this._http.post<IProduct>(this.baseUrl + '/api/products',
-                        product, {
-                            headers: new HttpHeaders({
-                                'Content-Type': 'application/json'
-                            })
-                        }).catch(this.handlerError);
+                        product).catch(this.handlerError);
     }
 
     public deleteProduct(id: number): Observable<void | ProductTrackerError> {
