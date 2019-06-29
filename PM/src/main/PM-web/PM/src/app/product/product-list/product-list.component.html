@@ -58,7 +58,7 @@
             </table>
         </div>
     </div>
-    <mat-expansion-panel [expanded]="expanded" hideToggle="true">
+    <mat-expansion-panel  hideToggle="true" #matExpansionPanel>
         <mat-expansion-panel-header>
             <mat-panel-title>
                <div style="color: greenyellow; font-size: 24px; border-style: solid; border: seashell"
@@ -67,7 +67,7 @@
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
             <pm-product-insert (productSubmitted)="onProductSubmitted($event)"
-             (expanded)="toggleExpansion($event)"></pm-product-insert>
+             (expanded)="toggleExpansion(matExpansionPanel, $event)"></pm-product-insert>
         </ng-template>    
     </mat-expansion-panel>
 </div>

@@ -42,9 +42,10 @@ export class ProductInsertComponent implements OnInit {
       this._productService.addProduct(this.product).subscribe((data: IProduct) => {
         this._toastrService.success('Successfully added!', 'Add');
         this.productSubmitted.emit(data);
-        this.expanded.emit(false);
+        this.expanded.emit(true);
       }, (error: ProductTrackerError) => {
         console.error(error);
+        this.expanded.emit(false);
       });
   }
 

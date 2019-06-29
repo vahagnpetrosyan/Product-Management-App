@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {IProduct} from '../model/product';
 import { ProductService } from '../service/product.service';
 import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
-import { MatDialog } from '@angular/material';
+import {MatDialog, MatExpansionPanel} from '@angular/material';
 import { ProductDeleteDialogComponent } from '../product-delete/product-delete-dialog.component';
 import {ProductTrackerError} from '../model/product-tracker-error';
 @Component({
@@ -15,7 +15,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
   imageWindth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  expanded: boolean = false;
 
   private _httpErrorMessage: string;
   private _navigationSubscription: any;
@@ -64,8 +63,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
       this.showImage = !this.showImage;
   }
 
-  toggleExpansion(event: boolean){
-    this.expanded = event;
+  toggleExpansion(matExpansionPanel: MatExpansionPanel, event: boolean){
+     event && matExpansionPanel.close();
   }
 
   filterByParam(param: string): IProduct[] {
