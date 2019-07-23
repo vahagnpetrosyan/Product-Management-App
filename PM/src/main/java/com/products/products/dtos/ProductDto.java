@@ -1,18 +1,40 @@
 package com.products.products.dtos;
 
+import javax.validation.constraints.*;
+import java.time.LocalDate;
+
 public class ProductDto {
+
+    @NotNull
     private int id;
+
+    @NotNull
     private String productName;
+
+    @NotNull
     private String productCode;
-    private String releaseDate;
+
+    @NotNull
+    private LocalDate releaseDate;
+
+    @Size(max = 255)
     private String description;
+
+    @NotNull
+    @Positive
     private double price;
+
+    @NotNull
+    @Positive
     private double starRating;
+
+    @Size(max = 255)
     private String imageUrl;
 
     public ProductDto() {}
 
-    public ProductDto(int id, String productName, String productCode, String releaseDate, String description, double price, double starRating, String imageUrl) {
+    public ProductDto(int id, String productName, String productCode, LocalDate releaseDate,
+                      String description, double price, double starRating, String imageUrl) {
         this.id = id;
         this.productName = productName;
         this.productCode = productCode;
@@ -47,11 +69,11 @@ public class ProductDto {
         this.productCode = productCode;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 

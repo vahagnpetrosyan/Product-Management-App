@@ -1,8 +1,10 @@
 package com.products.products.services;
 
+import com.products.products.exceptionhandling.exceptions.ProductNotFoundException;
 import com.products.products.repositories.ProductRepositoty;
 import com.products.products.entities.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +35,12 @@ public class ProductService {
      }
 
      public ProductEntity findOneById(Integer id){
-         return productRepositoty.findOneById(id);
+         try {
+             return productRepositoty.findOneById(id);
+         }
+         catch (EmptyResultDataAccessException ex){
+             throw new ProductNotFoundException("Product with id: " + id + " is not found");
+         }
      }
 
 }

@@ -3,10 +3,12 @@ package com.products.products.utils;
 import com.products.products.entities.ProductEntity;
 import com.products.products.dtos.ProductDto;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,8 +33,7 @@ public class ProductMapper {
 
         if(productEntity.getReleaseDate() != null){
             LocalDate releaseDate = productEntity.getReleaseDate().toLocalDate();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            productDto.setReleaseDate(releaseDate.format(formatter));
+            productDto.setReleaseDate(releaseDate);
         }
 
         return productDto;
@@ -51,12 +52,7 @@ public class ProductMapper {
         productEntity.setPrice(productDto.getPrice());
         productEntity.setStarRating(productDto.getStarRating());
         productEntity.setImageUrl(productDto.getImageUrl());
-
-        if(productDto.getReleaseDate() != null){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate localDate = LocalDate.parse(productDto.getReleaseDate(), formatter);
-            productEntity.setReleaseDate(Date.valueOf(localDate));
-        }
+        productEntity.setReleaseDate(Date.valueOf(productDto.getReleaseDate()));
 
         return productEntity;
     }

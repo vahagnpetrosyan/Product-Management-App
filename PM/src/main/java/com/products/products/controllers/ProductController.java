@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -32,13 +33,13 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductDto> addProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto){
         productDto.setId(ThreadLocalRandom.current().nextInt(0, 10));
         return ResponseEntity.ok(productMapper.toDto(productService.create(productMapper.toEntity(productDto))));
     }
 
     @PatchMapping("/{id}")
-    public void updateProduct(@RequestBody ProductDto productDto, @PathVariable Integer id){
+    public void updateProduct(@RequestBody @Valid ProductDto productDto, @PathVariable Integer id){
         productDto.setId(id);
         productService.update(productMapper.toEntity(productDto));
     }
