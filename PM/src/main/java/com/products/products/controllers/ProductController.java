@@ -4,6 +4,7 @@ import com.products.products.dtos.ProductDto;
 import com.products.products.services.ProductService;
 import com.products.products.utils.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,11 @@ public class ProductController {
     @PostMapping()
     public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto){
         productDto.setId(ThreadLocalRandom.current().nextInt(0, 10));
-        return ResponseEntity.ok(productMapper.toDto(productService.create(productMapper.toEntity(productDto))));
+        return
+            new ResponseEntity<ProductDto>(productMapper
+                                            .toDto(productService
+                                            .create(productMapper.toEntity(productDto))),
+                HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
@@ -45,8 +50,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable String id){
+    public ResponseEntity deleteProduct(@PathVariable String id){
         productService.delete(Integer.parseInt(id));
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
 
