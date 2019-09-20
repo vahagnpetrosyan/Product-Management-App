@@ -15,17 +15,14 @@ public class ProductService {
 
      @Autowired private ProductRepositoty productRepositoty;
 
-     @Transactional
      public void update(ProductEntity productEntity){
          productRepositoty.update(productEntity);
      }
 
-     @Transactional
      public ProductEntity create(ProductEntity productEntity){
         return productRepositoty.create(productEntity);
      }
 
-     @Transactional
      public void delete(Integer id){
          productRepositoty.delete(id);
      }

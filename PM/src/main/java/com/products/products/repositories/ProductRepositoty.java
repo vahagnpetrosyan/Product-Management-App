@@ -1,6 +1,8 @@
 package com.products.products.repositories;
 
 import com.products.products.entities.ProductEntity;
+import com.products.products.utils.SqlStatementReader;
+import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,6 +17,8 @@ import java.util.List;
 @Repository
 public class ProductRepositoty {
 
+    private static SqlStatementReader sqlStatementReader = SqlStatementReader.from("queries/queries_product");
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -22,22 +26,17 @@ public class ProductRepositoty {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public void update(ProductEntity productEntity){
-        final String sqlStmt = "UPDATE products set updated_at=DEFAULT where id=?";
-        jdbcTemplate.update(sqlStmt, productEntity.getId());
+        final String sqlStmt = sqlStatementReader.getStatement("sqlquery.update");
 
-        this.updateName(productEntity);
-        this.updateCode(productEntity);
-        this.updateReleaseDate(productEntity);
-        this.updateDescription(productEntity);
-        this.updatePrice(productEntity);
-        this.updateRating(productEntity);
-        this.updateImageUrl(productEntity);
+        jdbcTemplate.update(sqlStmt, productEntity.getProductName(), productEntity.getProductCode(),
+                                    productEntity.getReleaseDate(), productEntity.getDescription(),
+                                    productEntity.getPrice(), productEntity.getStarRating(),
+                                    productEntity.getImageUrl(), new Timestamp(System.currentTimeMillis()),
+                                    productEntity.getId());
     }
 
     public ProductEntity create(ProductEntity productEntity){
-        final String sqlStmt =
-                "INSERT INTO products (name, code, release_date, description, price, rating, image_url, created_at, updated_at)"
-                + " VALUES (:productName, :productCode, :releaseDate, :description, :price, :starRating, :imageUrl, :createdAt, :updatedAt)";
+        final String sqlStmt = sqlStatementReader.getStatement("sqlquery.create");
 
         SqlParameterSource fileParameters = new BeanPropertySqlParameterSource(productEntity);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -48,13 +47,13 @@ public class ProductRepositoty {
     }
 
     public void delete(Integer id){
-        final String sqlStmt = "DELETE FROM products where id = ?";
+        final String sqlStmt = sqlStatementReader.getStatement("sqlquery.delete");
 
         jdbcTemplate.update(sqlStmt, id);
     }
 
     public List<ProductEntity> findAll(){
-        final String sqlStmt = "SELECT * FROM products";
+        final String sqlStmt = sqlStatementReader.getStatement("sqlquery.select.all");
 
         return jdbcTemplate.query(sqlStmt, (rs, rowNum) -> new ProductEntity(
                 rs.getInt("id"),
@@ -71,7 +70,7 @@ public class ProductRepositoty {
     }
 
     public ProductEntity findOneById(Integer id){
-        final String sqlStmt = "SELECT * FROM products where id = ?";
+        final String sqlStmt = sqlStatementReader.getStatement("sqlquery.select.one");
 
         return jdbcTemplate.queryForObject(sqlStmt, new Object[]{id}, (rs,  rowNum) -> new ProductEntity(
                 rs.getInt("id"),
@@ -85,70 +84,5 @@ public class ProductRepositoty {
                 rs.getTimestamp("created_at"),
                 rs.getTimestamp("updated_at")
         ));
-    }
-
-    private void updateName(ProductEntity productEntity){
-        if(productEntity.getProductName() == null){
-            return;
-        }
-        final String sqlStmt = "UPDATE products SET name = ? where id = ?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getProductName(), productEntity.getId());
-    }
-
-    private void updateCode(ProductEntity productEntity){
-        if(productEntity.getProductCode() == null){
-            return;
-        }
-        final String sqlStmt = "UPDATE products set code=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getProductCode(), productEntity.getId());
-    }
-
-    private void updateReleaseDate(ProductEntity productEntity){
-        if(productEntity.getReleaseDate() == null){
-            return;
-        }
-        final String sqlStmt = "UPDATE products set release_date=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getReleaseDate(), productEntity.getId());
-    }
-
-    private void updateDescription(ProductEntity productEntity){
-        if(productEntity.getDescription() == null){
-            return;
-        }
-        final String sqlStmt = "UPDATE products set description=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getDescription(), productEntity.getId());
-    }
-
-    private void updatePrice(ProductEntity productEntity){
-        if(productEntity.getPrice() == null){
-            return;
-        }
-        final String sqlStmt = "UPDATE products set price=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getPrice(), productEntity.getId());
-    }
-
-    private void updateRating(ProductEntity productEntity){
-        if(productEntity.getStarRating() == null){
-            return;
-        }
-
-        final String sqlStmt = "UPDATE products set rating=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getStarRating(), productEntity.getId());
-    }
-
-    private void updateImageUrl(ProductEntity productEntity){
-        if(productEntity.getImageUrl() == null){
-            return;
-        }
-
-        final String sqlStmt = "UPDATE products set image_url=? where id=?";
-
-        jdbcTemplate.update(sqlStmt, productEntity.getImageUrl(), productEntity.getId());
     }
 }

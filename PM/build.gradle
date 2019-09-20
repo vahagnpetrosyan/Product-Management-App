@@ -29,9 +29,9 @@ task wrapper(type: Wrapper) {
 }
 def webappDir = "$projectDir/src/main/PM-web/PM"
 
-processResources {
-	dependsOn "buildAngular"
-}
+//processResources {
+//	dependsOn "buildAngular"
+//}
 
 task buildAngular(type:Exec) {
 	dependsOn "installAngularModules"

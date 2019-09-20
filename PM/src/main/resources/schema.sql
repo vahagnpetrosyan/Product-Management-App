@@ -10,3 +10,12 @@ CREATE TABLE IF NOT EXISTS "products" (
   "created_at" TIMESTAMP DEFAULT now(),
   "updated_at" TIMESTAMP DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS "users" {
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(64) NOT NULL UNIQUE
+  "email" VARCHAR(255) UNIQUE
+  "password" VARCHAR(255) NOT NULL
+
+
+}
