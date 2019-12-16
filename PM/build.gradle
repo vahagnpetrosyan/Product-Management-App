@@ -33,6 +33,25 @@ def webappDir = "$projectDir/src/main/PM-web/PM"
 //	dependsOn "buildAngular"
 //}
 
+task unpack(type: Copy){
+	def jarFile = file("${buildDir}/libs/PM-0.0.1.jar")
+	def outputDir = file("${buildDir}/unpacked")
+
+	from zipTree(jarFile)
+	into outputDir
+}
+
+task collectSatic(type: Copy){
+	dependsOn "unpack"
+	from("${buildDir}/unpacked/BOOT-INF/classes/static")
+	into "${buildDir}/unpacked/BOOT-INF/static"
+}
+
+task finalStuff(type: Delete){
+	dependsOn "collectSatic"
+	delete "${buildDir}/unpacked/BOOT-INF/classes/static"
+}
+
 task buildAngular(type:Exec) {
 	dependsOn "installAngularModules"
 	workingDir "$webappDir"
