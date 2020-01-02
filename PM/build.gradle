@@ -74,6 +74,9 @@ task installAngularModules(type:Exec) {
 		commandLine "npm", "install"
 	}
 }
+
+project.tasks['build'].dependsOn('finalStuff')
+
 jar {
 	baseName = 'PM-app'
 	version = '0.0.1'
