@@ -29,9 +29,9 @@ task wrapper(type: Wrapper) {
 }
 def webappDir = "$projectDir/src/main/PM-web/PM"
 
-//processResources {
-//	dependsOn "buildAngular"
-//}
+processResources {
+	dependsOn "buildAngular"
+}
 
 task unpack(type: Copy){
 	def jarFile = file("${buildDir}/libs/PM-0.0.1.jar")

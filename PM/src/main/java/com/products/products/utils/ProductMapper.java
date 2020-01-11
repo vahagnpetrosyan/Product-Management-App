@@ -1,14 +1,11 @@
 package com.products.products.utils;
 
-import com.products.products.entities.ProductEntity;
 import com.products.products.dtos.ProductDto;
+import com.products.products.entities.ProductEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

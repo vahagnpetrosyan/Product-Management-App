@@ -1,12 +1,11 @@
 package com.products.products.services;
 
+import com.products.products.entities.ProductEntity;
 import com.products.products.exceptionhandling.exceptions.ProductNotFoundException;
 import com.products.products.repositories.ProductRepositoty;
-import com.products.products.entities.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

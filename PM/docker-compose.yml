@@ -1,0 +1,33 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'postgres'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgre
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=products
+    restart: "no"
+  products-application:
+    build: .
+    container_name: 'products-application'
+    ports:
+      - 8081:8081
+    environment:
+      - RDS_HOSTNAME=postgres
+      - RDS_USERNAME=postgres
+      - RDS_PASSWORD=postgre
+      - RDS_DB=products
+      - RDS_PORT=5432
+    depends_on:
+      - postgres
+    restart: "no"
+
+volumes:
+  postgres-data:
